@@ -17,7 +17,6 @@ namespace ChatServer
             lostConnections.Clear();
 
             CheckConnectionStatus(clientsConnected);
-
             DeleteLostConnections(clientsConnected);
 
             return lostConnections;
@@ -31,8 +30,7 @@ namespace ChatServer
         {
             foreach (var item in list)
             {
-                item.Socket.Shutdown(SocketShutdown.Both);
-
+                item.Socket.Shutdown(SocketShutdown.Both);       
                 item.Socket.Close();
             }
         }
@@ -46,8 +44,7 @@ namespace ChatServer
         {
             foreach (var client in clientsConnected)
             {
-                bool part1 = client.Socket.Poll(1000, SelectMode.SelectRead);
-
+                bool part1 = client.Socket.Poll(1000, SelectMode.SelectRead);                
                 bool part2 = (client.Socket.Available == 0);
 
                 if (part1 && part2)

@@ -10,15 +10,11 @@ namespace ChatClient
     public class Client
     {
         private readonly int bufferSize;
-
         private readonly int messagesCount;
-
         private readonly int delay;
 
-        private Socket sender;
-
+        private Socket sender;        
         private ITextGenerator textGenerator;
-
         private Random random = new Random();
 
         /// <summary>
@@ -28,21 +24,16 @@ namespace ChatClient
         public Client(ITextGenerator _textGenerator)
         {
             IPHostEntry ipHost = Dns.GetHostEntry("localhost");
-
             IPAddress ipAddr = ipHost.AddressList[0];
-
             IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, 11000);
 
             sender = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
             sender.Connect(ipEndPoint);
 
             textGenerator = _textGenerator;
 
             bufferSize = sender.ReceiveBufferSize;
-
             messagesCount = 10;
-
             delay = 5000;
         }
 
@@ -53,8 +44,8 @@ namespace ChatClient
         {         
             ReceiveMessages();
 
-            SendMessages().Wait();
-
+            SendMessages().Wait();            
+            
             CloseConnection();
         }
 
@@ -64,7 +55,6 @@ namespace ChatClient
         private void CloseConnection()
         {
             sender.Shutdown(SocketShutdown.Both);
-
             sender.Close();
         }
 
@@ -98,9 +88,9 @@ namespace ChatClient
                     Thread.Sleep(random.Next(0, delay));
 
                     message = textGenerator.GenerateMessage();
-
+                    
                     SendMessage(message);
-
+                    
                     Console.WriteLine("I:" + message);
                 }
             });

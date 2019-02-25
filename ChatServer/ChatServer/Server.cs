@@ -11,27 +11,19 @@ namespace ChatServer
     public class Server
     {
         private readonly int bufferSize;
-
         private int currentId;
-
         private object locker = new object();
 
         private Socket listener;
-
         private ClientInfo stub;
 
         private IStorage storage;
-
         private ISocketHandler socketHandler;
-
         private IStoreMessageSender storeMessageSender;
-
         private ILostConnectionSender lostConnectionSender;
-
         private IServerStopHandler serverStopHandler;
 
         private List<ClientInfo> clients = new List<ClientInfo>();
-
         private List<ClientInfo> lostClients = new List<ClientInfo>();
 
         /// <summary>
@@ -46,35 +38,25 @@ namespace ChatServer
             ILostConnectionSender _lostConnectionSender, IServerStopHandler _serverStopHandler)
         {
             IPHostEntry ipHost = Dns.GetHostEntry("localhost");
-
             IPAddress ipAddr = ipHost.AddressList[0];
-
             IPEndPoint ipEndPoint = new IPEndPoint(ipAddr, 11000);
 
             listener = new Socket(ipAddr.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-
             listener.Bind(ipEndPoint);
-
             listener.Listen(10);
 
             storage = _storage;
-
             socketHandler = _socketHandler;
-
             storeMessageSender = _storeMessageSender;
-
             lostConnectionSender = _lostConnectionSender;
-
             serverStopHandler = _serverStopHandler;
 
             serverStopHandler.Broadcast = BroadcastMessage;
-
             lostConnectionSender.Broadcast = BroadcastMessage;
 
             stub = new ClientInfo(currentId++, null, null);
 
             serverStopHandler.Stub = stub;
-
             lostConnectionSender.Stub = stub;
 
             bufferSize = listener.ReceiveBufferSize;

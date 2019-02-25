@@ -6,8 +6,7 @@ namespace ChatClient
 {
     public class Storage: IStorage
     {
-        private string namesPath = "../../Storage/Names";
-
+        private string namesPath = "../../Storage/Names";        
         private string messagesPath = "../../Storage/Messages";
 
         /// <summary>

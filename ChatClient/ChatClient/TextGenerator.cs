@@ -8,9 +8,8 @@ namespace ChatClient
         private IStorage storage;
 
         private List<string> names;
-
         private List<string> messages;
-
+        
         private Random random = new Random();
 
         public TextGenerator(IStorage _storage)
